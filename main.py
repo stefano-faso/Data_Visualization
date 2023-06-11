@@ -27,13 +27,19 @@ df_selection = df.query(
 st.title(":bar_chart: Salary Dashboard")
 st.markdown("##")
 
+col1,col2 = st.columns(2)
+genders_count = df_selection['Gender'].value_counts()
+print(genders_count)
+fig_genders = px.pie(genders_count,values=genders_count,names=df_selection['Gender'].unique(),title='Gender Counts')
+
 #KPI
 average_salary = int(df_selection["Salary"].mean())
 total_salary = df_selection["Salary"].sum()
-
-st.subheader("Average Salary")
-st.subheader(f'US $ {average_salary:,}')
-
+with col1:
+    st.subheader("Average Salary")
+    st.subheader(f'US $ {average_salary:,}')
+with col2:
+    st.plotly_chart(fig_genders,use_container_width=True)
 st.markdown("---")
 
 #BARCHART
@@ -78,3 +84,4 @@ fig = px.scatter(df_selection,
                  trendline="ols",
                  title="Salary Regression by Age")
 st.plotly_chart(fig,use_container_width=True)
+
