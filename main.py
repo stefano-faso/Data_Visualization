@@ -29,7 +29,6 @@ st.markdown("##")
 
 col1,col2 = st.columns(2)
 genders_count = df_selection['Gender'].value_counts()
-print(genders_count)
 fig_genders = px.pie(genders_count,values=genders_count,names=df_selection['Gender'].unique(),title='Gender Counts')
 
 #KPI
@@ -68,7 +67,7 @@ fig_salary_gender = px.bar(salary_by_gender,
                            orientation="h",
                            color_discrete_sequence=["#0083B8"]*len(salary_by_gender),
                            template="plotly_white",
-                           title="Salary by Gender"
+                           title="Salary by Gender",
                            )
 
 left_column, right_column = st.columns(2)
