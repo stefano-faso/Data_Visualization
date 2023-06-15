@@ -29,7 +29,10 @@ st.markdown("##")
 
 col1,col2 = st.columns(2)
 genders_count = df_selection['Gender'].value_counts()
-fig_genders = px.pie(genders_count,values=genders_count,names=df_selection['Gender'].unique(),title='Gender Counts')
+fig_genders = px.pie(genders_count,
+                     values=genders_count,
+                     names=df_selection['Gender'].unique(),
+                     title='Gender Counts')
 
 #KPI
 average_salary = int(df_selection["Salary"].mean())
@@ -52,12 +55,12 @@ fig_salary_education = px.bar(
     x = "Salary",
     y = salary_by_education.index,
     orientation="h",
-    color_discrete_sequence=["#0083B8"]*len(salary_by_education),
+    color=salary_by_education.index,
     template="plotly_white",
     title="Salary by Education"
 
 )
-
+fig_salary_education.update_layout(showlegend=False)
 
 #salary by gender
 salary_by_gender = df_selection.groupby(by=["Gender"])["Salary"].mean()
@@ -65,10 +68,11 @@ fig_salary_gender = px.bar(salary_by_gender,
                            x = "Salary",
                            y=salary_by_gender.index,
                            orientation="h",
-                           color_discrete_sequence=["#0083B8"]*len(salary_by_gender),
+                           color=salary_by_gender.index,
                            template="plotly_white",
                            title="Salary by Gender",
                            )
+fig_salary_gender.update_layout(showlegend=False)
 
 left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig_salary_education,use_container_width=True)
@@ -76,11 +80,12 @@ right_column.plotly_chart(fig_salary_gender,use_container_width=True)
 
 #Regression
 st.markdown("---")
-fig = px.scatter(df_selection,
+fig = px.scatter(df,
                  x="Age",y="Salary",
                  color='Education_Level',
                  opacity=0,
                  trendline="ols",
-                 title="Salary Regression by Age")
+                 title="Salary Regression by Age",
+                 )
 st.plotly_chart(fig,use_container_width=True)
 
